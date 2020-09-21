@@ -1,0 +1,16 @@
+main: nl.parrotlync.hiddenmickeys.HiddenMickeys
+name: HiddenMickeys
+version: 1.0.0
+description: Hidden Mickeys plugin for the Discovery Network
+api-version: 1.12
+author: ParrotLync
+depend: [PlaceholderAPI]
+commands:
+  hiddenmickeys:
+    description: Main command
+    usage: /hiddenmickeys
+    aliases: [hm]
+permissions:
+  hiddenmickeys.admin:
+    default: op
+    description: Create or remove HiddenMickeys
