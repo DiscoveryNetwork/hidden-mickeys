@@ -4,11 +4,14 @@ import nl.parrotlync.hiddenmickeys.HiddenMickeys;
 import nl.parrotlync.hiddenmickeys.util.ChatUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class MickeyListener implements Listener {
 
@@ -46,14 +49,19 @@ public class MickeyListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getClickedBlock().getType() == Material.SKULL) {
-            Location location = event.getClickedBlock().getLocation();
-            if (HiddenMickeys.getInstance().getMickeyManager().exists(location)) {
-                if (!HiddenMickeys.getInstance().getPlayerManager().exists(event.getPlayer(), location)) {
-                    HiddenMickeys.getInstance().getPlayerManager().addLocation(event.getPlayer(), location);
-                    Integer found = HiddenMickeys.getInstance().getPlayerManager().getSize(event.getPlayer());
-                    Integer total = HiddenMickeys.getInstance().getMickeyManager().getSize();
-                    ChatUtil.sendMessage(event.getPlayer(), "§7(§6§l!§7) Awesome, you found a §bHiddenMickey§7! (" + found + "/" + total + ")", false);
+        if (event.getClickedBlock() != null) {
+            if (event.getClickedBlock().getType() == Material.SKULL && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand() == EquipmentSlot.HAND) {
+                Location location = event.getClickedBlock().getLocation();
+                if (HiddenMickeys.getInstance().getMickeyManager().exists(location)) {
+                    if (!HiddenMickeys.getInstance().getPlayerManager().exists(event.getPlayer(), location)) {
+                        HiddenMickeys.getInstance().getPlayerManager().addLocation(event.getPlayer(), location);
+                        Integer found = HiddenMickeys.getInstance().getPlayerManager().getSize(event.getPlayer());
+                        Integer total = HiddenMickeys.getInstance().getMickeyManager().getSize();
+                        event.getPlayer().spawnParticle(Particle.VILLAGER_HAPPY, location, 30, 1, 1, 1);
+                        ChatUtil.sendMessage(event.getPlayer(), "§7(§6§l!§7) Awesome, you found a §bHiddenMickey§7! (" + found + "/" + total + ")", false);
+                    } else {
+                        ChatUtil.sendMessage(event.getPlayer(), "§7(§6§l!§7) §cYou have already found this §bHiddenMickey§c!", false);
+                    }
                 }
             }
         }

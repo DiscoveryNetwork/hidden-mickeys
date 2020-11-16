@@ -4,6 +4,7 @@ import nl.parrotlync.hiddenmickeys.HiddenMickeys;
 import nl.parrotlync.hiddenmickeys.model.HiddenMickey;
 import nl.parrotlync.hiddenmickeys.util.DataUtil;
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,13 @@ public class MickeyManager {
         hiddenMickeys.remove(location);
     }
 
+    public Location getMickey(Integer index) {
+        if (index < hiddenMickeys.size()) {
+            return hiddenMickeys.get(index);
+        }
+        return null;
+    }
+
     public boolean exists(Location location) {
         return hiddenMickeys.contains(location);
     }
@@ -35,7 +43,13 @@ public class MickeyManager {
         hiddenMickeys = new ArrayList<>();
         if (mickeys != null) {
             for (HiddenMickey mickey : mickeys) {
-                hiddenMickeys.add(mickey.getLocation());
+                try {
+                    if (mickey.getLocation().getBlock().getType() == Material.SKULL) {
+                        hiddenMickeys.add(mickey.getLocation());
+                    }
+                } catch (NullPointerException e) {
+                    HiddenMickeys.getInstance().getLogger().info("There was an error loading the HiddenMickey at " + mickey.getLocation().toString());
+                }
             }
             HiddenMickeys.getInstance().getLogger().info("Loaded " + hiddenMickeys.size() + " HiddenMickeys from file.");
         }

@@ -5,8 +5,11 @@
 
     <groupId>nl.parrotlync</groupId>
     <artifactId>HiddenMickeys</artifactId>
-    <version>1.0.0</version>
+    <version>1.12.2-v1.0${revision}</version>
 
+    <properties>
+        <revision>-SNAPSHOT</revision>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -20,14 +23,17 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <url>https://maven.ipictserver.nl/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <id>nexus-releases</id>
+            <url>https://maven.ipictserver.nl/repository/maven-group/</url>
         </repository>
     </repositories>
 

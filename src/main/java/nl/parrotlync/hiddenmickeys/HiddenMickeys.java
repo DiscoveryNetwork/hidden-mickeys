@@ -6,11 +6,12 @@ import nl.parrotlync.hiddenmickeys.manager.MickeyManager;
 import nl.parrotlync.hiddenmickeys.manager.PlayerManager;
 import nl.parrotlync.hiddenmickeys.placeholder.HiddenMickeyExpansion;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class HiddenMickeys extends JavaPlugin {
     private static HiddenMickeys instance;
-    private PlayerManager playerManager;
-    private MickeyManager mickeyManager;
+    private final PlayerManager playerManager;
+    private final MickeyManager mickeyManager;
 
     public HiddenMickeys() {
         instance = this;
@@ -25,9 +26,16 @@ public class HiddenMickeys extends JavaPlugin {
         saveConfig();
         getCommand("hiddenmickeys").setExecutor(new HiddenMickeysCommandExecutor());
         getServer().getPluginManager().registerEvents(new MickeyListener(), this);
-        new HiddenMickeyExpansion().register();
-        mickeyManager.load();
-        playerManager.load();
+
+        // Put loading in a scheduler to avoid null errors when the world isn't loaded
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                new HiddenMickeyExpansion().register();
+                mickeyManager.load();
+                playerManager.load();
+            }
+        }.runTaskLater(this, 0);
         getLogger().info("HiddenMickeys is now enabled!");
     }
 
