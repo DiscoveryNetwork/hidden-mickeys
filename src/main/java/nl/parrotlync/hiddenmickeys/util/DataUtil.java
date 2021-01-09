@@ -26,5 +26,4 @@ public class DataUtil {
             return null;
         }
     }
-
 }

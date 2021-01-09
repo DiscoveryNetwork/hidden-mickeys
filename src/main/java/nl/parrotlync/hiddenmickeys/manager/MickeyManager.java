@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MickeyManager {
     private List<Location> hiddenMickeys;
-    private String path = "plugins/HiddenMickeys/locations.data";
+    private final String path = "plugins/HiddenMickeys/locations.data";
 
     public void addMickey(Location location) {
         if (!hiddenMickeys.contains(location)) {
