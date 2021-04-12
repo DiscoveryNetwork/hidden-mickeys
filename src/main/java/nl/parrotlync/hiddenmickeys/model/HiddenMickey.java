@@ -4,18 +4,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class HiddenMickey implements Serializable {
-    private Integer x;
-    private Integer y;
-    private Integer z;
-    private String world;
+    private final Integer x;
+    private final Integer y;
+    private final Integer z;
+    private final String world;
 
     public HiddenMickey(Location location) {
         this.x = (int) location.getX();
         this.y = (int) location.getY();
         this.z = (int) location.getZ();
-        this.world = location.getWorld().getName();
+        this.world = Objects.requireNonNull(location.getWorld()).getName();
     }
 
     public Location getLocation() {

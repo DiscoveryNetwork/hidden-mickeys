@@ -1,8 +1,8 @@
 main: nl.parrotlync.hiddenmickeys.HiddenMickeys
-name: HiddenMickeys
-version: 1.0.0
-description: Hidden Mickeys plugin for the Discovery Network
-api-version: 1.12
+name: ${artifactId}
+version: ${version}
+description: ${description}
+api-version: 1.15
 author: ParrotLync
 depend: [PlaceholderAPI]
 commands:

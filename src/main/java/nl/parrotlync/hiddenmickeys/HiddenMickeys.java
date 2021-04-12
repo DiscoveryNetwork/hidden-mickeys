@@ -8,6 +8,8 @@ import nl.parrotlync.hiddenmickeys.placeholder.HiddenMickeyExpansion;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
+
 public class HiddenMickeys extends JavaPlugin {
     private static HiddenMickeys instance;
     private final PlayerManager playerManager;
@@ -21,10 +23,10 @@ public class HiddenMickeys extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getConfig().addDefault("skull-owner", "MickeyMouse");
+        getConfig().addDefault("skull-owner", "af3c2145-8974-41ea-9737-34f259531353");
         getConfig().options().copyDefaults(true);
         saveConfig();
-        getCommand("hiddenmickeys").setExecutor(new HiddenMickeysCommandExecutor());
+        Objects.requireNonNull(getCommand("hiddenmickeys")).setExecutor(new HiddenMickeysCommandExecutor());
         getServer().getPluginManager().registerEvents(new MickeyListener(), this);
 
         // Put loading in a scheduler to avoid null errors when the world isn't loaded

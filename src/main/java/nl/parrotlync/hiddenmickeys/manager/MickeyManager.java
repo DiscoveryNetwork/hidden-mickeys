@@ -44,7 +44,7 @@ public class MickeyManager {
         if (mickeys != null) {
             for (HiddenMickey mickey : mickeys) {
                 try {
-                    if (mickey.getLocation().getBlock().getType() == Material.SKULL) {
+                    if (mickey.getLocation().getBlock().getType() == Material.PLAYER_HEAD || mickey.getLocation().getBlock().getType() == Material.PLAYER_WALL_HEAD) {
                         hiddenMickeys.add(mickey.getLocation());
                     }
                 } catch (NullPointerException e) {

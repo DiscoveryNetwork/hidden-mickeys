@@ -12,13 +12,16 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class MickeyListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (event.getBlock().getType() == Material.SKULL) {
-            if (event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals("§bHiddenMickey")) {
+        if (event.getBlock().getType() == Material.PLAYER_HEAD || event.getBlock().getType() == Material.PLAYER_WALL_HEAD) {
+            ItemMeta meta = event.getPlayer().getInventory().getItemInMainHand().getItemMeta();
+            assert meta != null;
+            if (meta.getDisplayName().equals("§bHiddenMickey")) {
                 if (event.getPlayer().hasPermission("hiddenmickeys.admin")) {
                     HiddenMickeys.getInstance().getMickeyManager().addMickey(event.getBlock().getLocation());
                     ChatUtil.sendMessage(event.getPlayer(), "§7You created a new §aHiddenMickey§7!", true);
@@ -32,7 +35,7 @@ public class MickeyListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (event.getBlock().getType() == Material.SKULL) {
+        if (event.getBlock().getType() == Material.PLAYER_HEAD || event.getBlock().getType() == Material.PLAYER_WALL_HEAD) {
             Location location = event.getBlock().getLocation();
             if (HiddenMickeys.getInstance().getMickeyManager().exists(location)) {
                 if (event.getPlayer().hasPermission("hiddenmickeys.admin")) {
@@ -50,7 +53,7 @@ public class MickeyListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getClickedBlock() != null) {
-            if (event.getClickedBlock().getType() == Material.SKULL && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand() == EquipmentSlot.HAND) {
+            if ((event.getClickedBlock().getType() == Material.PLAYER_HEAD || event.getClickedBlock().getType() == Material.PLAYER_WALL_HEAD) && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getHand() == EquipmentSlot.HAND) {
                 Location location = event.getClickedBlock().getLocation();
                 if (HiddenMickeys.getInstance().getMickeyManager().exists(location)) {
                     if (!HiddenMickeys.getInstance().getPlayerManager().exists(event.getPlayer(), location)) {

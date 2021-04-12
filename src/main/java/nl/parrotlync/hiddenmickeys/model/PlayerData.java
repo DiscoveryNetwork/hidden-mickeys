@@ -2,7 +2,6 @@ package nl.parrotlync.hiddenmickeys.model;
 
 import nl.parrotlync.hiddenmickeys.HiddenMickeys;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,8 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class PlayerData implements Serializable {
-    private UUID player;
-    private List<HiddenMickey> hiddenMickeyList;
+    private final UUID player;
+    private final List<HiddenMickey> hiddenMickeyList;
 
     public PlayerData(UUID player, List<Location> locations) {
         this.player = player;

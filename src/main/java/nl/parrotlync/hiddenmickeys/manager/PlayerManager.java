@@ -13,11 +13,11 @@ import java.util.UUID;
 
 public class PlayerManager {
     private HashMap<UUID, List<Location>> playerData;
-    private String path = "plugins/HiddenMickeys/players.data";
+    private final String path = "plugins/HiddenMickeys/players.data";
 
     public void addLocation(Player player, Location location) {
         if (!playerData.containsKey(player.getUniqueId())) {
-            playerData.put(player.getUniqueId(), new ArrayList<Location>());
+            playerData.put(player.getUniqueId(), new ArrayList<>());
         }
         if (!playerData.get(player.getUniqueId()).contains(location)) {
             playerData.get(player.getUniqueId()).add(location);

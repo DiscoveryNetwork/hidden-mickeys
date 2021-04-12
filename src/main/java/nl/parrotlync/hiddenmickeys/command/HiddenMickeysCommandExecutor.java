@@ -12,14 +12,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class HiddenMickeysCommandExecutor implements TabExecutor {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 
         if (args.length == 0) {
             return help(sender);
@@ -28,10 +31,11 @@ public class HiddenMickeysCommandExecutor implements TabExecutor {
         if (sender.hasPermission("hiddenmickeys.admin")) {
             if (args[0].equalsIgnoreCase("get")) {
                 Player player = (Player) sender;
-                ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+                ItemStack item = new ItemStack(Material.PLAYER_HEAD, 1);
                 SkullMeta skull = (SkullMeta) item.getItemMeta();
+                assert skull != null;
                 skull.setDisplayName("§bHiddenMickey");
-                skull.setOwner(HiddenMickeys.getInstance().getConfig().getString("skull-owner"));
+                skull.setOwningPlayer(Bukkit.getOfflinePlayer(UUID.fromString(Objects.requireNonNull(HiddenMickeys.getInstance().getConfig().getString("skull-owner")))));
                 item.setItemMeta(skull);
                 player.getInventory().addItem(item);
                 ChatUtil.sendMessage(sender, "§7Given §bHiddenMickey §7item to " + player.getName(), true);
@@ -61,7 +65,7 @@ public class HiddenMickeysCommandExecutor implements TabExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         List<String> suggestions = new ArrayList<>();
 
         if (args.length == 1 && sender.hasPermission("hiddenmickeys.admin")) {
